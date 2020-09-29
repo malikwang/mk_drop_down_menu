@@ -99,7 +99,9 @@ class _MKDropDownMenuState extends State<MKDropDownMenu> {
   }
 
   _hideMenu() {
-    _overlayEntry?.remove();
+    if (_overlayEntry != null) {
+      _overlayEntry?.remove();
+    }
   }
 
   @override
