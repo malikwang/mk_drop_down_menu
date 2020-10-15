@@ -26,6 +26,7 @@ class MKDropDownMenu<T extends MKDropDownMenuController>
     this.controller,
     this.headerBuilder,
     this.menuBuilder,
+    this.menuMargin = 0.0,
   })  : assert(headerBuilder != null),
         assert(menuBuilder != null);
 
@@ -33,6 +34,7 @@ class MKDropDownMenu<T extends MKDropDownMenuController>
   final T controller;
   final Widget Function(bool menuIsShowing) headerBuilder;
   final Widget Function() menuBuilder;
+  final double menuMargin;
   @override
   _MKDropDownMenuState createState() => _MKDropDownMenuState();
 }
@@ -56,6 +58,12 @@ class _MKDropDownMenuState extends State<MKDropDownMenu> {
     RenderBox renderBox = _headerKey.currentContext.findRenderObject();
     Offset offset = renderBox.localToGlobal(Offset.zero);
     double top = renderBox.size.height + offset.dy;
+    Rect boxRect = Rect.fromLTWH(
+      offset.dx,
+      offset.dy,
+      renderBox.size.width,
+      renderBox.size.height,
+    );
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return Container(
@@ -63,11 +71,16 @@ class _MKDropDownMenuState extends State<MKDropDownMenu> {
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: <Widget>[
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: _controller.hideMenu,
+              Listener(
+                behavior: HitTestBehavior.translucent,
+                onPointerDown: (PointerDownEvent event) {
+                  // if point in header box, let menu header hide menu
+                  if (!boxRect.contains(event.localPosition)) {
+                    _controller.hideMenu();
+                  }
+                },
                 child: Container(
-                  height: top,
+                  height: top + widget.menuMargin,
                 ),
               ),
               Container(

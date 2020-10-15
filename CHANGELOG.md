@@ -1,3 +1,8 @@
+## 1.0.3
+
+* Improve gesture.  
+* Add menuMargin.
+
 ## 1.0.2
 
 * Fix overlay exception.

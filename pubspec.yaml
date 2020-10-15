@@ -3,7 +3,7 @@ description: Tap a widget wrapped with MKDropDownMenu to show a drop down menu. 
 repository: https://github.com/malikwang/mk_drop_down_menu
 homepage: https://github.com/malikwang/mk_drop_down_menu
 
-version: 1.0.2
+version: 1.0.3
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
