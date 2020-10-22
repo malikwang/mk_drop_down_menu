@@ -135,12 +135,18 @@ class _MKDropDownMenuState extends State<MKDropDownMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: _controller.toggleMenu,
-      child: Container(
-        key: _headerKey,
-        child: widget.headerBuilder(_controller.menuIsShowing),
+    return WillPopScope(
+      onWillPop: () {
+        _hideMenu();
+        return Future.value(true);
+      },
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: _controller.toggleMenu,
+        child: Container(
+          key: _headerKey,
+          child: widget.headerBuilder(_controller.menuIsShowing),
+        ),
       ),
     );
   }

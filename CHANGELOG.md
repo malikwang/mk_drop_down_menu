@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Fix Android back.
+
 ## 1.0.3
 
 * Improve gesture.  
