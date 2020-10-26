@@ -65,3 +65,26 @@ MKDropDownMenu<CustomDropDownMenuController>(
 ),
 ```
 
+# Issue
+
+Before version of 1.0.4, this plugin doesn't immediately hide menu when user press **'Physics Return'** on Android.
+
+In the version of 1.0.4, we use WillPopScope to solve this issue. However, this solution would **disable Swipe Back Gesture** on IOS.
+
+Therefore, In the version of 1.1.0, we the following code [(see in source code)](https://github.com/malikwang/mk_drop_down_menu/blob/master/lib/src/drop_down_menu.dart#L147) to solve this issue:
+
+```dart
+if (Platform.isIOS) {
+  return child;
+} else {
+  return WillPopScope(
+    onWillPop: () {
+      _hideMenu();
+      return Future.value(true);
+    },
+    child: child,
+  );
+}
+```
+
+**If your app also enable Swipe Back Gesture on Android, we suggest u modify this plugin╮(╯_╰)╭**

@@ -1,3 +1,7 @@
+## 1.1.0
+
+* Adaptive Platform.
+
 ## 1.0.4
 
 * Fix Android back.

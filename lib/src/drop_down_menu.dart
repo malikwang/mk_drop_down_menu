@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class MKDropDownMenuController extends ChangeNotifier {
   bool menuIsShowing = false;
@@ -135,19 +136,24 @@ class _MKDropDownMenuState extends State<MKDropDownMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        _hideMenu();
-        return Future.value(true);
-      },
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: _controller.toggleMenu,
-        child: Container(
-          key: _headerKey,
-          child: widget.headerBuilder(_controller.menuIsShowing),
-        ),
+    var child = GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: _controller.toggleMenu,
+      child: Container(
+        key: _headerKey,
+        child: widget.headerBuilder(_controller.menuIsShowing),
       ),
     );
+    if (Platform.isIOS) {
+      return child;
+    } else {
+      return WillPopScope(
+        onWillPop: () {
+          _hideMenu();
+          return Future.value(true);
+        },
+        child: child,
+      );
+    }
   }
 }
